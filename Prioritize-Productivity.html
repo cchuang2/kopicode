@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kopi & Code | Week 1: Priorities & Productivity</title>
+  <title>Kopi & Code | Week 1 Presentation</title>
   <style>
     :root {
       --bg-dark: #0b0d12;
@@ -31,21 +31,27 @@
       color: var(--text-main);
       line-height: 1.6;
       padding: 2rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .container {
       max-width: 900px;
       margin: 0 auto;
+      width: 100%;
+      flex-grow: 1;
     }
 
-    /* Header */
-    header {
-      text-align: center;
-      padding: 3rem 1.5rem 2.5rem;
-      background: radial-gradient(circle at top, rgba(245, 158, 11, 0.15) 0%, rgba(11, 13, 18, 0) 70%);
-      border-radius: 20px;
-      margin-bottom: 2.5rem;
-      border: 1px solid var(--border-color);
+    /* Presentation Header Component */
+    .deck-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
     }
 
     .badge {
@@ -58,12 +64,36 @@
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-bottom: 1rem;
       border: 1px solid var(--border-highlight);
     }
 
+    /* Slide Management */
+    .slide {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Header Styling */
+    header {
+      text-align: center;
+      padding: 2.5rem 1.5rem 2rem;
+      background: radial-gradient(circle at top, rgba(245, 158, 11, 0.15) 0%, rgba(11, 13, 18, 0) 70%);
+      border-radius: 20px;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+    }
+
     h1 {
-      font-size: 2.75rem;
+      font-size: 2.5rem;
       font-weight: 800;
       letter-spacing: -0.03em;
       margin-bottom: 0.5rem;
@@ -74,9 +104,8 @@
 
     .subtitle {
       color: var(--accent-amber);
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 600;
-      margin-bottom: 1.5rem;
     }
 
     /* Icebreaker Card */
@@ -84,19 +113,19 @@
       background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(20, 23, 33, 1) 100%);
       border: 1px solid rgba(6, 182, 212, 0.3);
       border-radius: 14px;
-      padding: 1.5rem;
-      margin-bottom: 2.5rem;
+      padding: 2rem;
+      margin-top: 1rem;
       display: flex;
       align-items: center;
-      gap: 1.25rem;
+      gap: 1.5rem;
     }
 
     .icebreaker-icon {
-      font-size: 2.25rem;
+      font-size: 2.5rem;
       background: rgba(6, 182, 212, 0.15);
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -104,7 +133,7 @@
     }
 
     .icebreaker-content h3 {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--accent-cyan);
@@ -112,15 +141,11 @@
     }
 
     .icebreaker-content p {
-      font-size: 1.1rem;
+      font-size: 1.25rem;
       font-weight: 600;
     }
 
-    /* Sections */
-    section {
-      margin-bottom: 3.5rem;
-    }
-
+    /* Section Typography */
     .section-header {
       margin-bottom: 1.5rem;
     }
@@ -134,7 +159,7 @@
     }
 
     .section-title {
-      font-size: 1.65rem;
+      font-size: 1.8rem;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -154,20 +179,20 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 10px;
-      padding: 1rem;
+      padding: 1.25rem 1rem;
       text-align: center;
     }
 
     .loop-step-name {
       color: var(--accent-amber);
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 1.05rem;
       margin-bottom: 0.25rem;
     }
 
     .loop-step-desc {
       color: var(--text-muted);
-      font-size: 0.825rem;
+      font-size: 0.85rem;
     }
 
     /* Quote Box */
@@ -176,11 +201,11 @@
       border-left: 4px solid var(--accent-amber);
       padding: 1.25rem 1.5rem;
       border-radius: 0 12px 12px 0;
-      margin: 1.5rem 0;
+      margin-top: 1rem;
     }
 
     .quote-box blockquote {
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-style: italic;
       color: #e2e8f0;
       margin-bottom: 0.5rem;
@@ -198,12 +223,12 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 1.5rem;
+      padding: 1.75rem;
       margin-bottom: 1.25rem;
     }
 
     .card h3 {
-      font-size: 1.15rem;
+      font-size: 1.25rem;
       color: var(--text-main);
       margin-bottom: 0.75rem;
       display: flex;
@@ -216,14 +241,16 @@
       counter-reset: item;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 1rem;
+      margin-top: 1rem;
     }
 
     .numbered-list li {
       counter-increment: item;
       position: relative;
-      padding-left: 2.25rem;
+      padding-left: 2.5rem;
       color: #d1d5db;
+      font-size: 1.05rem;
     }
 
     .numbered-list li::before {
@@ -234,10 +261,10 @@
       background: rgba(245, 158, 11, 0.15);
       color: var(--accent-amber);
       border: 1px solid var(--border-highlight);
-      width: 22px;
-      height: 22px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -283,25 +310,25 @@
     /* Examples Grid */
     .examples-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
     }
 
     .example-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 10px;
-      padding: 1.25rem;
+      padding: 1.5rem;
     }
 
     .example-card h4 {
       color: var(--accent-cyan);
-      font-size: 1rem;
+      font-size: 1.1rem;
       margin-bottom: 0.5rem;
     }
 
     .example-card p {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: var(--text-muted);
     }
 
@@ -309,31 +336,92 @@
     .summary-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
+      gap: 1.25rem;
     }
 
     .summary-item {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 10px;
-      padding: 1.25rem;
+      padding: 1.5rem;
       border-top: 3px solid var(--accent-amber);
     }
 
     .summary-item h4 {
-      font-size: 0.95rem;
+      font-size: 1.05rem;
       margin-bottom: 0.5rem;
       color: var(--text-main);
     }
 
     .summary-item p {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: var(--text-muted);
     }
 
+    /* Navigation Bar */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding: 0.85rem 1.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      position: sticky;
+      bottom: 1rem;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.6rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: var(--accent-amber);
+      color: #000;
+      border-color: var(--accent-amber);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .slide-select {
+      background: var(--code-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.5rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+      cursor: pointer;
+      max-width: 320px;
+    }
+
+    .slide-select option {
+      background: var(--bg-card);
+      color: var(--text-main);
+    }
+
     @media (max-width: 640px) {
-      h1 { font-size: 2rem; }
+      h1 { font-size: 1.8rem; }
       .loop-flow { grid-template-columns: 1fr; }
+      .slide-select { max-width: 140px; }
+      .nav-btn span { display: none; }
     }
   </style>
 </head>
@@ -341,29 +429,35 @@
 
   <div class="container">
     
-    <!-- Header -->
-    <header>
+    <!-- Top Deck Status Bar -->
+    <div class="deck-header">
       <span class="badge">Kopi & Code • Week 01</span>
-      <h1>Priorities & Productivity</h1>
-      <div class="subtitle">Shrinking the unavoidable and building your personal Nobot</div>
-    </header>
+      <span style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;" id="slideCounter">Slide 1 of 9</span>
+    </div>
 
-    <!-- Icebreaker -->
-    <div class="icebreaker-card">
-      <div class="icebreaker-icon">🧊</div>
-      <div class="icebreaker-content">
-        <h3>Icebreaker Discussion</h3>
-        <p>"What is one task you'd delete from your week if AI could do it?"</p>
+    <!-- Slide 1: Icebreaker -->
+    <div class="slide active" id="slide-1">
+      <header>
+        <h1>Priorities & Productivity</h1>
+        <div class="subtitle">Shrinking the unavoidable and building your personal Nobot</div>
+      </header>
+
+      <div class="icebreaker-card">
+        <div class="icebreaker-icon">🧊</div>
+        <div class="icebreaker-content">
+          <h3>Icebreaker Discussion</h3>
+          <p>"What is one task you'd delete from your week if AI could do it?"</p>
+        </div>
       </div>
     </div>
 
-    <!-- Part I: The Build Loop -->
-    <section>
+    <!-- Slide 2: Part I The Build Loop -->
+    <div class="slide" id="slide-2">
       <div class="section-header">
         <span class="part-tag">Part I</span>
         <h2 class="section-title">The Build Loop</h2>
       </div>
-      <p style="color: var(--text-muted);">Every effective AI tool follows the same 5-phase pattern. Keep this mental model in mind as we complete today's builds.</p>
+      <p style="color: var(--text-muted); font-size: 1.1rem;">Every effective AI tool follows the same 5-phase pattern. Keep this mental model in mind as we complete today's builds.</p>
       
       <div class="loop-flow">
         <div class="loop-step">
@@ -387,10 +481,10 @@
           <div class="loop-step-desc">Give feedback to sharpen over time</div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- Part II: Prioritization -->
-    <section>
+    <!-- Slide 3: Part II Prioritization First -->
+    <div class="slide" id="slide-3">
       <div class="section-header">
         <span class="part-tag">Part II</span>
         <h2 class="section-title">Prioritization First</h2>
@@ -398,15 +492,22 @@
 
       <div class="card">
         <h3>The Trap of Moving Faster</h3>
-        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">Prioritization must come <em>before</em> automation. Speed alone is counterproductive if applied to the wrong tasks.</p>
+        <p style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 0.5rem;">Prioritization must come <em>before</em> automation. Speed alone is counterproductive if applied to the wrong tasks.</p>
         <div class="quote-box">
           <blockquote>"The technologies we use to try to get on top of everything always fail us in the end, because they increase the size of everything of which we're trying to get on top."</blockquote>
           <cite>— Oliver Burkeman, Four Thousand Weeks</cite>
         </div>
       </div>
+    </div>
+
+    <!-- Slide 4: The 10x Test Exercise -->
+    <div class="slide" id="slide-4">
+      <div class="section-header">
+        <span class="part-tag">Part II • Exercise</span>
+        <h2 class="section-title">The 10x Test Exercise</h2>
+      </div>
 
       <div class="card">
-        <h3>The 10x Test Exercise</h3>
         <ul class="numbered-list">
           <li><strong>Audit past week:</strong> Generate 10 quick, specific bullets of actual tasks and meetings (ask AI to draft this from your notes/calendar).</li>
           <li><strong>Name goals:</strong> List your key goals for the current quarter or year.</li>
@@ -414,11 +515,17 @@
           <li><strong>Bucket non-10x tasks:</strong> Identify what could have been a polite "no", and what is unavoidable work that needs its execution time shrunk.</li>
         </ul>
       </div>
+    </div>
 
-      <!-- Build 1: Voice Guide -->
+    <!-- Slide 5: Build Step 1: Voice Style Guide -->
+    <div class="slide" id="slide-5">
+      <div class="section-header">
+        <span class="part-tag">Part II • Build 1</span>
+        <h2 class="section-title">Build Step 1: Voice Style Guide</h2>
+      </div>
+
       <div class="card">
-        <h3>Build Step 1: Voice Style Guide</h3>
-        <p style="color: var(--text-muted);">Paste 5–10 recent emails you've written into this prompt to build your foundational voice guide.</p>
+        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">Paste 5–10 recent emails you've written into this prompt to build your foundational voice guide.</p>
         
         <div class="prompt-block" id="prompt1">
 <button class="copy-btn" onclick="copyText('prompt1')">Copy Prompt</button>I'm building a personal "email style guide" so that when AI helps me write emails, they sound like me.
@@ -438,11 +545,17 @@ Output the guide as a clean, reusable markdown file I can paste into the Instruc
 Here are my emails:
 [paste 5–10 sent emails here]</div>
       </div>
+    </div>
 
-      <!-- Build 2: Nobot Agent -->
+    <!-- Slide 6: Build Step 2: The Nobot -->
+    <div class="slide" id="slide-6">
+      <div class="section-header">
+        <span class="part-tag">Part II • Build 2</span>
+        <h2 class="section-title">Build Step 2: The Nobot Agent</h2>
+      </div>
+
       <div class="card">
-        <h3>Build Step 2: The Nobot Agent</h3>
-        <p style="color: var(--text-muted);">Use the prompt below to generate the complete system prompt for your "Nobot" push-back assistant.</p>
+        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">Use the prompt below to generate the complete system prompt for your "Nobot" push-back assistant.</p>
         
         <div class="prompt-block" id="prompt2">
 <button class="copy-btn" onclick="copyText('prompt2')">Copy Prompt</button>I want to build a Nobot agent — a reusable assistant that drafts replies when someone asks me to do something I should push back on.
@@ -459,10 +572,10 @@ When someone pastes an email into the agent, Nobot should:
 
 Generate a clean, reusable system prompt as a markdown file to paste into a Copilot/Gemini agent named "Nobot". Bake the email voice rules from our conversation directly into the system prompt so Nobot doesn't need a separate guide. Include rules on length, tone, gracefulness, and citing real costs.</div>
       </div>
-    </section>
+    </div>
 
-    <!-- Part III: Productivity -->
-    <section>
+    <!-- Slide 7: Part III Productivity Hacks -->
+    <div class="slide" id="slide-7">
       <div class="section-header">
         <span class="part-tag">Part III</span>
         <h2 class="section-title">Productivity Hacks</h2>
@@ -483,10 +596,16 @@ Generate a clean, reusable system prompt as a markdown file to paste into a Copi
           <p>Paste your completed weekly calendar. Receive personal insights on what got done, what slipped, time usage observations, and priorities for next week.</p>
         </div>
       </div>
+    </div>
 
-      <!-- Build 3: Weekly Update Writer -->
-      <div style="margin-top: 1.5rem;" class="card">
-        <h3>Build Step 3: Weekly Update Writer Agent</h3>
+    <!-- Slide 8: Build Step 3: Weekly Update Writer Agent -->
+    <div class="slide" id="slide-8">
+      <div class="section-header">
+        <span class="part-tag">Part III • Build 3</span>
+        <h2 class="section-title">Build Step 3: Weekly Update Writer Agent</h2>
+      </div>
+
+      <div class="card">
         <p style="color: var(--text-muted); margin-bottom: 1rem;">Follow this 3-prompt sequence to construct an automated manager status update generator.</p>
 
         <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-cyan);">STEP 1: Define Manager Expectations</p>
@@ -511,10 +630,10 @@ When someone pastes a calendar screenshot, it should:
 
 Generate a clean, reusable system prompt as a markdown file for a Copilot agent named "weekly-update". Bake the success criteria and voice rules directly into the system prompt. Extra rules: don't pad, lead with the most important item, flag risks clearly, zero filler.</div>
       </div>
-    </section>
+    </div>
 
-    <!-- Part IV: Summary -->
-    <section>
+    <!-- Slide 9: Part IV Session Summary & Takeaways -->
+    <div class="slide" id="slide-9">
       <div class="section-header">
         <span class="part-tag">Part IV</span>
         <h2 class="section-title">Session Summary & Takeaways</h2>
@@ -538,14 +657,85 @@ Generate a clean, reusable system prompt as a markdown file for a Copilot agent 
           <p>Get a rough version working first, test it on real calendar/email data, and refine through immediate feedback.</p>
         </div>
       </div>
-    </section>
+    </div>
 
   </div>
 
+  <!-- Sticky Presentation Controls Footer -->
+  <div class="container">
+    <div class="nav-bar">
+      <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">
+        ◀ <span>Previous</span>
+      </button>
+
+      <select class="slide-select" id="slideDropdown" onchange="jumpToSlide(this.value)">
+        <option value="1">1. Icebreaker</option>
+        <option value="2">2. Part I: The Build Loop</option>
+        <option value="3">3. Part II: Prioritization First</option>
+        <option value="4">4. The 10x Test Exercise</option>
+        <option value="5">5. Build Step 1: Voice Style Guide</option>
+        <option value="6">6. Build Step 2: The Nobot</option>
+        <option value="7">7. Part III: Productivity Hacks</option>
+        <option value="8">8. Build Step 3: Weekly Update Writer</option>
+        <option value="9">9. Part IV: Session Summary & Takeaways</option>
+      </select>
+
+      <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">
+        <span>Next</span> ▶
+      </button>
+    </div>
+  </div>
+
   <script>
+    let currentSlide = 1;
+    const totalSlides = 9;
+
+    function showSlide(index) {
+      if (index < 1) index = 1;
+      if (index > totalSlides) index = totalSlides;
+
+      currentSlide = index;
+
+      // Update slide visibility
+      document.querySelectorAll('.slide').forEach((slide, idx) => {
+        if (idx + 1 === currentSlide) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      // Update counter and dropdown
+      document.getElementById('slideCounter').textContent = `Slide ${currentSlide} of ${totalSlides}`;
+      document.getElementById('slideDropdown').value = currentSlide;
+
+      // Update button disabled states
+      document.getElementById('prevBtn').disabled = (currentSlide === 1);
+      document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function changeSlide(direction) {
+      showSlide(currentSlide + direction);
+    }
+
+    function jumpToSlide(index) {
+      showSlide(parseInt(index, 10));
+    }
+
+    // Keyboard navigation (Arrow keys)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        if (currentSlide < totalSlides) changeSlide(1);
+      } else if (e.key === 'ArrowLeft') {
+        if (currentSlide > 1) changeSlide(-1);
+      }
+    });
+
+    // Copy Prompt Functionality
     function copyText(id) {
       const el = document.getElementById(id);
-      // Exclude copy button text from clipboard
       const clone = el.cloneNode(true);
       const btn = clone.querySelector('.copy-btn');
       if (btn) btn.remove();
@@ -563,6 +753,9 @@ Generate a clean, reusable system prompt as a markdown file for a Copilot agent 
         }, 2000);
       });
     }
+
+    // Initialize
+    showSlide(1);
   </script>
 </body>
 </html>
