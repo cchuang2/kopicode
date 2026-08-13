@@ -69,13 +69,25 @@ body{
     color:white;
     border:1px solid rgba(255,255,255,.05);
     transition:all .25s ease;
-    display:block;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
 
 .card:hover{
     transform:translateY(-6px);
     background:var(--card-hover);
     border-color:#0A66C2;
+}
+
+.card-link{
+    cursor:pointer;
+    border-color:rgba(10, 102, 194, 0.3);
+}
+
+.card-link:hover .link-arrow{
+    transform:translateX(4px);
+    color:#0A66C2;
 }
 
 .badge{
@@ -85,16 +97,26 @@ body{
     background:#0A66C2;
     font-size:.85rem;
     margin-bottom:14px;
+    align-self:flex-start;
 }
 
 .card h3{
     font-size:1.5rem;
     margin-bottom:12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 }
 
 .card p{
     color:var(--muted);
     line-height:1.6;
+}
+
+.link-arrow{
+    font-size:1.2rem;
+    transition:transform .25s ease, color .25s ease;
+    color:var(--muted);
 }
 
 .spacer{
@@ -119,23 +141,59 @@ body{
 
   <main class="container">
     
-    <!-- Guiding Principles -->
+    <!-- Guiding Principles Section -->
+    <h2 class="section-title">Overview & Framework</h2>
+    <div class="grid">
+      <!-- Link Card: Guiding Principles -->
+      <a href="https://cchuang2.github.io/kopicode/Guiding-Principles.html" class="card card-link">
+        <div>
+          <span class="badge">Core Values</span>
+          <h3>
+            <span>🤝 Guiding Principles</span>
+            <span class="link-arrow">↗</span>
+          </h3>
+          <p>Explore our core values: [In] It Together, Dream Big, and Failing is Fine.</p>
+        </div>
+      </a>
+
+      <!-- Link Card: Prioritize Productivity -->
+      <a href="https://cchuang2.github.io/kopicode/Prioritize-Productivity.html" class="card card-link">
+        <div>
+          <span class="badge">Weekly Focus</span>
+          <h3>
+            <span>⚡ Prioritize Productivity</span>
+            <span class="link-arrow">↗</span>
+          </h3>
+          <p>Discover productivity hacks, prompt frameworks, and operational AI workflows.</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- Guiding Principles Cards -->
     <h2 class="section-title">Guiding Principles</h2>
     <div class="grid">
       <div class="card">
-        <span class="badge">Principle 01</span>
-        <h3>🤝 [In] It Together</h3>
-        <p>We are all at different skill levels. This space exists for us to share, exchange perspective, and learn side by side.</p>
+        <div>
+          <span class="badge">Principle 01</span>
+          <h3>🤝 [In] It Together</h3>
+          <p>We are all at different skill levels. This space exists for us to share, exchange perspective, and learn side by side.</p>
+        </div>
       </div>
       <div class="card">
-        <span class="badge">Principle 02</span>
-        <h3>🚀 Dream Big</h3>
-        <p>Nothing is too hard or too big. Let's ideate together, explore edge cases, and test bold AI workflows.</p>
+        <div>
+          <span class="badge">Principle 02</span>
+          <h3>🚀 Dream Big</h3>
+          <p>Nothing is too hard or too big. Let's ideate together, explore edge cases, and test bold AI workflows.</p>
+        </div>
       </div>
       <div class="card">
-        <span class="badge">Principle 03</span>
-        <h3>💡 Failing is Fine</h3>
-        <p>Iterative failure is how we learn and get better. Messy builds lead to major operational breakthroughs.</p>
+        <div>
+          <span class="badge">Principle 03</span>
+          <h3>💡 Failing is Fine</h3>
+          <p>Iterative failure is how we learn and get better. Messy builds lead to major operational breakthroughs.</p>
+        </div>
       </div>
     </div>
 
@@ -145,29 +203,39 @@ body{
     <h2 class="section-title">Session Agenda</h2>
     <div class="grid">
       <div class="card">
-        <span class="badge">Step 1</span>
-        <h3>Icebreaker</h3>
-        <p>Quick warm-up and team check-in.</p>
+        <div>
+          <span class="badge">Step 1</span>
+          <h3>Icebreaker</h3>
+          <p>Quick warm-up and team check-in.</p>
+        </div>
       </div>
       <div class="card">
-        <span class="badge">Step 2</span>
-        <h3>Frame of the Week</h3>
-        <p>Setting the context and focus topic.</p>
+        <div>
+          <span class="badge">Step 2</span>
+          <h3>Frame of the Week</h3>
+          <p>Setting the context and focus topic.</p>
+        </div>
       </div>
       <div class="card">
-        <span class="badge">Step 3</span>
-        <h3>Co-Build</h3>
-        <p>Hands-on experimentation and prompting.</p>
+        <div>
+          <span class="badge">Step 3</span>
+          <h3>Co-Build</h3>
+          <p>Hands-on experimentation and prompting.</p>
+        </div>
       </div>
       <div class="card">
-        <span class="badge">Step 4</span>
-        <h3>Share-Out</h3>
-        <p>Showcasing builds and lessons learned.</p>
+        <div>
+          <span class="badge">Step 4</span>
+          <h3>Share-Out</h3>
+          <p>Showcasing builds and lessons learned.</p>
+        </div>
       </div>
       <div class="card">
-        <span class="badge">Step 5</span>
-        <h3>Commit</h3>
-        <p>Key takeaways and action items for the week.</p>
+        <div>
+          <span class="badge">Step 5</span>
+          <h3>Commit</h3>
+          <p>Key takeaways and action items for the week.</p>
+        </div>
       </div>
     </div>
 
