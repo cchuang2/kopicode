@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kopi & Code | Week 1: Priorities & Productivity</title>
+  <style>
+    :root {
+      --bg-dark: #0b0d12;
+      --bg-card: #141721;
+      --bg-card-hover: #1c202e;
+      --accent-amber: #f59e0b;
+      --accent-warm: #d97706;
+      --accent-cyan: #06b6d4;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-highlight: rgba(245, 158, 11, 0.3);
+      --code-bg: #090a0f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 3rem 1.5rem 2.5rem;
+      background: radial-gradient(circle at top, rgba(245, 158, 11, 0.15) 0%, rgba(11, 13, 18, 0) 70%);
+      border-radius: 20px;
+      margin-bottom: 2.5rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.4rem 1.1rem;
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--accent-amber);
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border-highlight);
+    }
+
+    h1 {
+      font-size: 2.75rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--accent-amber);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Icebreaker Card */
+    .icebreaker-card {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(20, 23, 33, 1) 100%);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .icebreaker-icon {
+      font-size: 2.25rem;
+      background: rgba(6, 182, 212, 0.15);
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icebreaker-content h3 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-cyan);
+      margin-bottom: 0.25rem;
+    }
+
+    .icebreaker-content p {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 3.5rem;
+    }
+
+    .section-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .part-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-amber);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .section-title {
+      font-size: 1.65rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 0.25rem;
+    }
+
+    /* Build Loop Flow */
+    .loop-flow {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+
+    .loop-step {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .loop-step-name {
+      color: var(--accent-amber);
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .loop-step-desc {
+      color: var(--text-muted);
+      font-size: 0.825rem;
+    }
+
+    /* Quote Box */
+    .quote-box {
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 4px solid var(--accent-amber);
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 12px 12px 0;
+      margin: 1.5rem 0;
+    }
+
+    .quote-box blockquote {
+      font-size: 1.05rem;
+      font-style: italic;
+      color: #e2e8f0;
+      margin-bottom: 0.5rem;
+    }
+
+    .quote-box cite {
+      font-size: 0.875rem;
+      color: var(--accent-amber);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    /* Cards & Lists */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      color: var(--text-main);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .numbered-list {
+      list-style: none;
+      counter-reset: item;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .numbered-list li {
+      counter-increment: item;
+      position: relative;
+      padding-left: 2.25rem;
+      color: #d1d5db;
+    }
+
+    .numbered-list li::before {
+      content: counter(item);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent-amber);
+      border: 1px solid var(--border-highlight);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Prompt Blocks */
+    .prompt-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin: 1rem 0;
+      position: relative;
+      font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.875rem;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.5;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 0.35rem 0.65rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      background: var(--accent-amber);
+      color: #000;
+    }
+
+    /* Examples Grid */
+    .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .example-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+
+    .example-card h4 {
+      color: var(--accent-cyan);
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .example-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Summary Grid */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .summary-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.25rem;
+      border-top: 3px solid var(--accent-amber);
+    }
+
+    .summary-item h4 {
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-main);
+    }
+
+    .summary-item p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 2rem; }
+      .loop-flow { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Header -->
+    <header>
+      <span class="badge">Kopi & Code • Week 01</span>
+      <h1>Priorities & Productivity</h1>
+      <div class="subtitle">Shrinking the unavoidable and building your personal Nobot</div>
+    </header>
+
+    <!-- Icebreaker -->
+    <div class="icebreaker-card">
+      <div class="icebreaker-icon">🧊</div>
+      <div class="icebreaker-content">
+        <h3>Icebreaker Discussion</h3>
+        <p>"What is one task you'd delete from your week if AI could do it?"</p>
+      </div>
+    </div>
+
+    <!-- Part I: The Build Loop -->
+    <section>
+      <div class="section-header">
+        <span class="part-tag">Part I</span>
+        <h2 class="section-title">The Build Loop</h2>
+      </div>
+      <p style="color: var(--text-muted);">Every effective AI tool follows the same 5-phase pattern. Keep this mental model in mind as we complete today's builds.</p>
+      
+      <div class="loop-flow">
+        <div class="loop-step">
+          <div class="loop-step-name">1. Align</div>
+          <div class="loop-step-desc">Determine goals & what good looks like</div>
+        </div>
+        <div class="loop-step">
+          <div class="loop-step-name">2. Capture</div>
+          <div class="loop-step-desc">Commit your rules to a clear spec</div>
+        </div>
+        <div class="loop-step">
+          <div class="loop-step-name">3. Build</div>
+          <div class="loop-step-desc">Encode spec into a saved skill</div>
+        </div>
+        <div class="loop-step">
+          <div class="loop-step-name">4. Test</div>
+          <div class="loop-step-desc">Run real input through the skill</div>
+        </div>
+        <div class="loop-step">
+          <div class="loop-step-name">5. Refine</div>
+          <div class="loop-step-desc">Give feedback to sharpen over time</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part II: Prioritization -->
+    <section>
+      <div class="section-header">
+        <span class="part-tag">Part II</span>
+        <h2 class="section-title">Prioritization First</h2>
+      </div>
+
+      <div class="card">
+        <h3>The Trap of Moving Faster</h3>
+        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">Prioritization must come <em>before</em> automation. Speed alone is counterproductive if applied to the wrong tasks.</p>
+        <div class="quote-box">
+          <blockquote>"The technologies we use to try to get on top of everything always fail us in the end, because they increase the size of everything of which we're trying to get on top."</blockquote>
+          <cite>— Oliver Burkeman, Four Thousand Weeks</cite>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>The 10x Test Exercise</h3>
+        <ul class="numbered-list">
+          <li><strong>Audit past week:</strong> Generate 10 quick, specific bullets of actual tasks and meetings (ask AI to draft this from your notes/calendar).</li>
+          <li><strong>Name goals:</strong> List your key goals for the current quarter or year.</li>
+          <li><strong>Apply the 10x filter:</strong> For each task, ask: <em>"If I got 10x better at this, would I be 10x more effective at hitting my goals?"</em></li>
+          <li><strong>Bucket non-10x tasks:</strong> Identify what could have been a polite "no", and what is unavoidable work that needs its execution time shrunk.</li>
+        </ul>
+      </div>
+
+      <!-- Build 1: Voice Guide -->
+      <div class="card">
+        <h3>Build Step 1: Voice Style Guide</h3>
+        <p style="color: var(--text-muted);">Paste 5–10 recent emails you've written into this prompt to build your foundational voice guide.</p>
+        
+        <div class="prompt-block" id="prompt1">
+<button class="copy-btn" onclick="copyText('prompt1')">Copy Prompt</button>I'm building a personal "email style guide" so that when AI helps me write emails, they sound like me.
+
+I'm pasting in 5–10 recent emails I've sent below. Read across them and build me a style guide that captures:
+- Sentence length and rhythm (do I write short or long, choppy or flowing?)
+- How I open emails (or don't)
+- How I close emails (sign-offs, last lines)
+- How I push back, disagree, or say no
+- How I ask for things
+- Words and phrases I use a lot
+- Things I never do (e.g., never use "Hope this finds you well")
+- Tone — formal vs. casual, warm vs. terse, direct vs. hedged
+
+Output the guide as a clean, reusable markdown file I can paste into the Instructions field of an agent called "email-style". Make it specific enough that another writer could imitate me using only this guide.
+
+Here are my emails:
+[paste 5–10 sent emails here]</div>
+      </div>
+
+      <!-- Build 2: Nobot Agent -->
+      <div class="card">
+        <h3>Build Step 2: The Nobot Agent</h3>
+        <p style="color: var(--text-muted);">Use the prompt below to generate the complete system prompt for your "Nobot" push-back assistant.</p>
+        
+        <div class="prompt-block" id="prompt2">
+<button class="copy-btn" onclick="copyText('prompt2')">Copy Prompt</button>I want to build a Nobot agent — a reusable assistant that drafts replies when someone asks me to do something I should push back on.
+
+Here's my context:
+- Asks I default to saying yes to but shouldn't: [Fill in]
+- What I want to spend more time on instead: [Fill in]
+- Real cost when I take on one more thing (projects/deadlines/tradeoffs): [Fill in]
+
+When someone pastes an email into the agent, Nobot should:
+1. Decide whether this should be a graceful no, a "yes, and here's the cost", or if it'd be a mistake to say no (pause & check with me first).
+2. Draft the reply.
+3. Reference the email voice rules so the reply sounds like me.
+
+Generate a clean, reusable system prompt as a markdown file to paste into a Copilot/Gemini agent named "Nobot". Bake the email voice rules from our conversation directly into the system prompt so Nobot doesn't need a separate guide. Include rules on length, tone, gracefulness, and citing real costs.</div>
+      </div>
+    </section>
+
+    <!-- Part III: Productivity -->
+    <section>
+      <div class="section-header">
+        <span class="part-tag">Part III</span>
+        <h2 class="section-title">Productivity Hacks</h2>
+        <p style="color: var(--text-muted); margin-top: 0.25rem;">Shrinking the high-priority work you cannot say no to.</p>
+      </div>
+
+      <div class="examples-grid">
+        <div class="example-card">
+          <h4>📅 Daily Briefing</h4>
+          <p>Paste tomorrow's calendar screenshot. Get a 1-page brief: short prep per meeting (who, what, prep items) plus 1 key line on what to accomplish today.</p>
+        </div>
+        <div class="example-card">
+          <h4>📝 Meeting Follow-Up</h4>
+          <p>Paste raw messy meeting notes. Receive clean action items with owners, key decisions made, open questions, and polished summary notes for Slack or email.</p>
+        </div>
+        <div class="example-card">
+          <h4>🔍 End-of-Week Reflection</h4>
+          <p>Paste your completed weekly calendar. Receive personal insights on what got done, what slipped, time usage observations, and priorities for next week.</p>
+        </div>
+      </div>
+
+      <!-- Build 3: Weekly Update Writer -->
+      <div style="margin-top: 1.5rem;" class="card">
+        <h3>Build Step 3: Weekly Update Writer Agent</h3>
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">Follow this 3-prompt sequence to construct an automated manager status update generator.</p>
+
+        <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-cyan);">STEP 1: Define Manager Expectations</p>
+        <div class="prompt-block" id="prompt3a">
+<button class="copy-btn" onclick="copyText('prompt3a')">Copy Prompt</button>I'm a [your role] at [company & team] and I send a weekly status update to my manager every Friday. Before writing anything — what does a manager actually need from a weekly update? What are they scanning for, what makes them stop reading, and what's the difference between an update that gets skimmed vs. one that changes how they think about my team? Be specific.</div>
+
+        <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-cyan); margin-top: 1rem;">STEP 2: Extract Criteria List</p>
+        <div class="prompt-block" id="prompt3b">
+<button class="copy-btn" onclick="copyText('prompt3b')">Copy Prompt</button>Take the criteria you just listed and output them as a clean, reusable bulleted list I can save and paste into another prompt. Just the list — no commentary.</div>
+
+        <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-cyan); margin-top: 1rem;">STEP 3: Generate System Prompt</p>
+        <div class="prompt-block" id="prompt3c">
+<button class="copy-btn" onclick="copyText('prompt3c')">Copy Prompt</button>I want to build a "weekly-update" Copilot agent — a reusable assistant that turns a screenshot of my calendar into a weekly status update for my manager.
+
+Success criteria for what good looks like:
+[Paste bulleted list from Step 2]
+
+When someone pastes a calendar screenshot, it should:
+1. Read the calendar and identify what was actually worked on.
+2. Turn that into a weekly status update hitting the success criteria above.
+3. Match my email voice rules so it sounds like me.
+
+Generate a clean, reusable system prompt as a markdown file for a Copilot agent named "weekly-update". Bake the success criteria and voice rules directly into the system prompt. Extra rules: don't pad, lead with the most important item, flag risks clearly, zero filler.</div>
+      </div>
+    </section>
+
+    <!-- Part IV: Summary -->
+    <section>
+      <div class="section-header">
+        <span class="part-tag">Part IV</span>
+        <h2 class="section-title">Session Summary & Takeaways</h2>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-item">
+          <h4>Impact Over Speed</h4>
+          <p>AI is most valuable when it lets you say no to low-impact work and shrink unavoidable friction — not when doing more noise faster.</p>
+        </div>
+        <div class="summary-item">
+          <h4>Debug the Loop</h4>
+          <p>When an AI tool fails, ask: <em>"Which phase of the Build Loop (Align, Capture, Build, Test, Refine) did I skip or rush?"</em></p>
+        </div>
+        <div class="summary-item">
+          <h4>Context is King</h4>
+          <p>Every agent needs explicit Success Criteria and clear personal Context to generate high-grade outputs.</p>
+        </div>
+        <div class="summary-item">
+          <h4>Iterative Mindset</h4>
+          <p>Get a rough version working first, test it on real calendar/email data, and refine through immediate feedback.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    function copyText(id) {
+      const el = document.getElementById(id);
+      // Exclude copy button text from clipboard
+      const clone = el.cloneNode(true);
+      const btn = clone.querySelector('.copy-btn');
+      if (btn) btn.remove();
+      
+      const textToCopy = clone.textContent.trim();
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalBtn = el.querySelector('.copy-btn');
+        originalBtn.textContent = 'Copied!';
+        originalBtn.style.background = '#f59e0b';
+        originalBtn.style.color = '#000';
+        setTimeout(() => {
+          originalBtn.textContent = 'Copy Prompt';
+          originalBtn.style.background = 'rgba(255, 255, 255, 0.1)';
+          originalBtn.style.color = 'var(--text-muted)';
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
