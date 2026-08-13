@@ -25,7 +25,7 @@
 body{
     background:var(--bg);
     color:var(--text);
-    font-family:Segoe UI, Inter, sans-serif;
+    font-family:'Segoe UI', Inter, Arial, sans-serif;
 }
 
 .hero{
@@ -36,7 +36,7 @@ body{
 
 .hero h1{
     font-size:4rem;
-    margin-bottom:15px;
+    margin-bottom:12px;
 }
 
 .hero p{
@@ -47,12 +47,12 @@ body{
 .container{
     max-width:1200px;
     margin:0 auto;
-    padding:50px 25px;
+    padding:60px 24px;
 }
 
 .section-title{
-    margin-bottom:25px;
     font-size:2rem;
+    margin-bottom:24px;
 }
 
 .grid{
@@ -67,8 +67,9 @@ body{
     padding:28px;
     text-decoration:none;
     color:white;
-    transition:all .25s ease;
     border:1px solid rgba(255,255,255,.05);
+    transition:all .25s ease;
+    display:block;
 }
 
 .card:hover{
@@ -79,107 +80,27 @@ body{
 
 .badge{
     display:inline-block;
-    background:#0A66C2;
-    color:white;
     padding:6px 12px;
     border-radius:999px;
+    background:#0A66C2;
     font-size:.85rem;
-    margin-bottom:15px;
+    margin-bottom:14px;
 }
 
 .card h3{
     font-size:1.5rem;
-    margin-bottom:10px;
+    margin-bottom:12px;
 }
 
 .card p{
     color:var(--muted);
-    line-height:1.5;
+    line-height:1.6;
+}
+
+.spacer{
+    margin-top:70px;
 }
 
 .footer{
     text-align:center;
-    padding:30px;
-    color:var(--muted);
-}
-</style>
-</head>
-
-<body>
-
-<div class="hero">
-    <h1>☕ Kopi & Code Fridays</h1>
-    <p>Weekly AI Build & Share Community</p>
-</div>
-
-<div class="container">
-
-    <h2 class="section-title">Learning Sessions</h2>
-
-    <div class="grid">
-
-        <a class="card"
-           href="https://cchuang2.github.io/kopicode/Prioritize-Productivity.html">
-
-            <span class="badge">Week 1</span>
-
-            <h3>Prioritize for Productivity</h3>
-
-            <p>
-                Learn practical AI workflows to save time,
-                automate repetitive work, and increase productivity.
-            </p>
-
-        </a>
-
-        <a class="card"
-           href="https://cchuang2.github.io/kopicode/Guiding-Principles.html">
-
-            <span class="badge">Core Concepts</span>
-
-            <h3>Guiding Principles</h3>
-
-            <p>
-                Foundational principles for responsible,
-                effective AI adoption and daily usage.
-            </p>
-
-        </a>
-
-        <div class="card">
-
-            <span class="badge">Coming Soon</span>
-
-            <h3>Prompt Engineering</h3>
-
-            <p>
-                Learn how to write prompts that consistently
-                produce better business outcomes.
-            </p>
-
-        </div>
-
-        <div class="card">
-
-            <span class="badge">Coming Soon</span>
-
-            <h3>Copilot for Sales</h3>
-
-            <p>
-                Customer-facing use cases for Copilot,
-                AI workflows, and productivity acceleration.
-            </p>
-
-        </div>
-
-    </div>
-
-</div>
-
-<div class="footer">
-    Kopi & Code Fridays • SEAK AI Community
-</div>
-
-</body>
-</html>
-`
+    padding:
