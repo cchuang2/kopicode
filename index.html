@@ -1,15 +1,104 @@
-<h1>Kopi & Code Fridays</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kopi & Code Fridays</title>
 
-<ul>
-    <li>
-        <Prioritize-Productivity.html
-            Week 1 - Prioritize for Productivity
+<style>
+body {
+    margin: 0;
+    font-family: Inter, Segoe UI, Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+}
+
+.hero {
+    padding: 60px 30px;
+    text-align: center;
+    background: linear-gradient(135deg,#0a66c2,#1e293b);
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    opacity: 0.8;
+    font-size: 1.1rem;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+    gap: 24px;
+}
+
+.card {
+    background: #1e293b;
+    padding: 24px;
+    border-radius: 16px;
+    text-decoration: none;
+    color: white;
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    background: #26364d;
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #60a5fa;
+}
+
+.card p {
+    opacity: 0.8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+    <h1>☕ Kopi & Code Fridays</h1>
+    <p>Weekly AI Build & Share Community</p>
+</div>
+
+<div class="container">
+
+    <div class="grid">
+
+        <a class="card" href="Prioritize-        <h2>Week 1</h2>
+            <p>Prioritize for Productivity</p>
         </a>
-    </li>
 
-    <li>
         Guiding-Principles.html
-            Guiding Principles
+            <h2>Guiding Principles</h2>
+            <p>The mindset and operating principles behind AI adoption.</p>
         </a>
-    </li>
-</ul>
+
+        <div class="card">
+            <h2>Coming Soon</h2>
+            <p>Prompt Engineering</p>
+        </div>
+
+        <div class="card">
+            <h2>Coming Soon</h2>
+            <p>Copilot for Sales</p>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
