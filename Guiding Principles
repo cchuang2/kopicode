@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kopi & Code | SEAK AI Share & Build</title>
+  <style>
+    :root {
+      --bg-dark: #0b0d12;
+      --bg-card: #141721;
+      --bg-card-hover: #1c202e;
+      --accent-amber: #f59e0b;
+      --accent-warm: #d97706;
+      --accent-cyan: #06b6d4;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-highlight: rgba(245, 158, 11, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 3.5rem 1.5rem;
+      background: radial-gradient(circle at top, rgba(245, 158, 11, 0.15) 0%, rgba(11, 13, 18, 0) 70%);
+      border-radius: 20px;
+      margin-bottom: 3rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.4rem 1.1rem;
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--accent-amber);
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      border: 1px solid var(--border-highlight);
+    }
+
+    h1 {
+      font-size: 3.25rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    /* Section Styling */
+    section {
+      margin-bottom: 3.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-title::before {
+      content: "";
+      display: block;
+      width: 4px;
+      height: 24px;
+      background: var(--accent-amber);
+      border-radius: 2px;
+    }
+
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Guiding Principles */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .principle-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.75rem;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .principle-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-highlight);
+    }
+
+    .principle-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .principle-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent-amber);
+    }
+
+    .principle-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Agenda */
+    .agenda-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .agenda-item {
+      display: flex;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      gap: 1.25rem;
+    }
+
+    .agenda-num {
+      background: rgba(6, 182, 212, 0.1);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      font-weight: 700;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .agenda-text {
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    /* Interactive Themes Section */
+    .themes-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .theme-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .theme-card:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .theme-title {
+      font-size: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .vote-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .vote-btn:hover {
+      border-color: var(--accent-amber);
+      color: var(--accent-amber);
+    }
+
+    .vote-btn.voted {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: var(--accent-amber);
+      color: var(--accent-amber);
+    }
+
+    /* Add Topic Form */
+    .add-topic-container {
+      margin-top: 1.25rem;
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .topic-input {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.85rem 1.1rem;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .topic-input:focus {
+      border-color: var(--accent-amber);
+    }
+
+    .add-btn {
+      background: var(--accent-amber);
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      padding: 0.85rem 1.5rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: opacity 0.2s ease;
+    }
+
+    .add-btn:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 2.25rem; }
+      .add-topic-container { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Header -->
+    <header>
+      <span class="badge">SEAK AI Share & Build</span>
+      <h1>☕ Kopi & Code 💻</h1>
+      <p>Weekly collaborative AI experimentation, practical sales workflows, and collective learning for the SEAK team.</p>
+    </header>
+
+    <!-- Guiding Principles -->
+    <section>
+      <div class="section-header">
+        <h2 class="section-title">Guiding Principles</h2>
+      </div>
+      <div class="principles-grid">
+        <div class="principle-card">
+          <div class="principle-icon">🤝</div>
+          <h3>[In] It Together</h3>
+          <p>We are all at different skill levels. This space exists for us to share, exchange perspective, and learn side by side.</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon">🚀</div>
+          <h3>Dream Big</h3>
+          <p>Nothing is too hard or too big. Let's ideate together, explore edge cases, and test bold AI workflows.</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon">💡</div>
+          <h3>Failing is Fine</h3>
+          <p>Iterative failure is how we learn and get better. Messy builds lead to major operational breakthroughs.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Agenda -->
+    <section>
+      <div class="section-header">
+        <h2 class="section-title">Session Structure</h2>
+      </div>
+      <div class="agenda-list">
+        <div class="agenda-item">
+          <div class="agenda-num">01</div>
+          <div class="agenda-text">Icebreaker</div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-num">02</div>
+          <div class="agenda-text">Frame of the Week</div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-num">03</div>
+          <div class="agenda-text">Co-Build</div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-num">04</div>
+          <div class="agenda-text">Share-Out</div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-num">05</div>
+          <div class="agenda-text">Commit</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Weekly Themes -->
+    <section>
+      <div class="section-header">
+        <h2 class="section-title">Weekly Focus Themes</h2>
+        <span class="section-sub">Vote on upcoming topics or add your own!</span>
+      </div>
+
+      <div class="themes-grid" id="themesGrid">
+        <!-- Topics dynamically rendered by JS -->
+      </div>
+
+      <!-- Add New Topic Form -->
+      <form class="add-topic-container" id="addTopicForm">
+        <input type="text" class="topic-input" id="newTopicInput" placeholder="Suggest a new topic or use-case..." required />
+        <button type="submit" class="add-btn">+ Add Topic</button>
+      </form>
+    </section>
+
+  </div>
+
+  <script>
+    // Initial themes list with all votes reset to 0
+    let themes = [
+      { id: 1, title: "Productivity Hacks", votes: 0, userVoted: false },
+      { id: 2, title: "Setting Data Foundations", votes: 0, userVoted: false },
+      { id: 3, title: "Territory Planning", votes: 0, userVoted: false },
+      { id: 4, title: "Client Meeting Prep", votes: 0, userVoted: false },
+      { id: 5, title: "Multithreading / Outreach", votes: 0, userVoted: false },
+      { id: 6, title: "Market Intel + Research", votes: 0, userVoted: false },
+      { id: 7, title: "Webinar / Event Planning", votes: 0, userVoted: false },
+      { id: 8, title: "Pilot Management", votes: 0, userVoted: false },
+      { id: 9, title: "Client FAQ Guides", votes: 0, userVoted: false },
+      { id: 10, title: "Objection Handling / Coaching", votes: 0, userVoted: false }
+    ];
+
+    const themesGrid = document.getElementById('themesGrid');
+    const addTopicForm = document.getElementById('addTopicForm');
+    const newTopicInput = document.getElementById('newTopicInput');
+
+    function renderThemes() {
+      // Sort themes by vote count (highest first), preserving initial ID order when tied at 0
+      themes.sort((a, b) => b.votes - a.votes || a.id - b.id);
+
+      themesGrid.innerHTML = '';
+      themes.forEach((theme) => {
+        const card = document.createElement('div');
+        card.className = 'theme-card';
+        card.innerHTML = `
+          <div class="theme-title">${theme.title}</div>
+          <button class="vote-btn ${theme.userVoted ? 'voted' : ''}" onclick="toggleVote(${theme.id})">
+            <span>▲</span>
+            <span>${theme.votes}</span>
+          </button>
+        `;
+        themesGrid.appendChild(card);
+      });
+    }
+
+    function toggleVote(id) {
+      const theme = themes.find(t => t.id === id);
+      if (theme) {
+        if (theme.userVoted) {
+          theme.votes--;
+          theme.userVoted = false;
+        } else {
+          theme.votes++;
+          theme.userVoted = true;
+        }
+        renderThemes();
+      }
+    }
+
+    addTopicForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = newTopicInput.value.trim();
+      if (title) {
+        themes.push({
+          id: Date.now(),
+          title: title,
+          votes: 1,
+          userVoted: true
+        });
+        newTopicInput.value = '';
+        renderThemes();
+      }
+    });
+
+    // Initial load
+    renderThemes();
+  </script>
+</body>
+</html>
