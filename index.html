@@ -3,65 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Kopi & Code Fridays</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Inter, Segoe UI, Arial, sans-serif;
-    background: #0f172a;
-    color: white;
+:root{
+    --linkedin:#0A66C2;
+    --bg:#0b0d12;
+    --card:#141721;
+    --card-hover:#1c202e;
+    --text:#f3f4f6;
+    --muted:#9ca3af;
 }
 
-.hero {
-    padding: 60px 30px;
-    text-align: center;
-    background: linear-gradient(135deg,#0a66c2,#1e293b);
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-.hero h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:Segoe UI, Inter, sans-serif;
 }
 
-.hero p {
-    opacity: 0.8;
-    font-size: 1.1rem;
+.hero{
+    background:linear-gradient(135deg,#0A66C2,#004182);
+    padding:80px 20px;
+    text-align:center;
 }
 
-.container {
-    max-width: 1100px;
-    margin: 40px auto;
-    padding: 0 20px;
+.hero h1{
+    font-size:4rem;
+    margin-bottom:15px;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
-    gap: 24px;
+.hero p{
+    font-size:1.3rem;
+    opacity:.9;
 }
 
-.card {
-    background: #1e293b;
-    padding: 24px;
-    border-radius: 16px;
-    text-decoration: none;
-    color: white;
-    transition: 0.2s;
+.container{
+    max-width:1200px;
+    margin:0 auto;
+    padding:50px 25px;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    background: #26364d;
+.section-title{
+    margin-bottom:25px;
+    font-size:2rem;
 }
 
-.card h2 {
-    margin-top: 0;
-    color: #60a5fa;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:24px;
 }
 
-.card p {
-    opacity: 0.8;
+.card{
+    background:var(--card);
+    border-radius:20px;
+    padding:28px;
+    text-decoration:none;
+    color:white;
+    transition:all .25s ease;
+    border:1px solid rgba(255,255,255,.05);
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    background:var(--card-hover);
+    border-color:#0A66C2;
+}
+
+.badge{
+    display:inline-block;
+    background:#0A66C2;
+    color:white;
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:.85rem;
+    margin-bottom:15px;
+}
+
+.card h3{
+    font-size:1.5rem;
+    margin-bottom:10px;
+}
+
+.card p{
+    color:var(--muted);
+    line-height:1.5;
+}
+
+.footer{
+    text-align:center;
+    padding:30px;
+    color:var(--muted);
 }
 </style>
 </head>
@@ -75,30 +114,72 @@ body {
 
 <div class="container">
 
+    <h2 class="section-title">Learning Sessions</h2>
+
     <div class="grid">
 
-        <a class="card" href="Prioritize-        <h2>Week 1</h2>
-            <p>Prioritize for Productivity</p>
+        <a class="card"
+           href="https://cchuang2.github.io/kopicode/Prioritize-Productivity.html">
+
+            <span class="badge">Week 1</span>
+
+            <h3>Prioritize for Productivity</h3>
+
+            <p>
+                Learn practical AI workflows to save time,
+                automate repetitive work, and increase productivity.
+            </p>
+
         </a>
 
-        Guiding-Principles.html
-            <h2>Guiding Principles</h2>
-            <p>The mindset and operating principles behind AI adoption.</p>
+        <a class="card"
+           href="https://cchuang2.github.io/kopicode/Guiding-Principles.html">
+
+            <span class="badge">Core Concepts</span>
+
+            <h3>Guiding Principles</h3>
+
+            <p>
+                Foundational principles for responsible,
+                effective AI adoption and daily usage.
+            </p>
+
         </a>
 
         <div class="card">
-            <h2>Coming Soon</h2>
-            <p>Prompt Engineering</p>
+
+            <span class="badge">Coming Soon</span>
+
+            <h3>Prompt Engineering</h3>
+
+            <p>
+                Learn how to write prompts that consistently
+                produce better business outcomes.
+            </p>
+
         </div>
 
         <div class="card">
-            <h2>Coming Soon</h2>
-            <p>Copilot for Sales</p>
+
+            <span class="badge">Coming Soon</span>
+
+            <h3>Copilot for Sales</h3>
+
+            <p>
+                Customer-facing use cases for Copilot,
+                AI workflows, and productivity acceleration.
+            </p>
+
         </div>
 
     </div>
 
 </div>
 
+<div class="footer">
+    Kopi & Code Fridays • SEAK AI Community
+</div>
+
 </body>
 </html>
+`
