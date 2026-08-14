@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Vocabulary & Framework | Kopi & Code Style</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0d0f17 0%, #121624 50%, #1a1e36 100%);
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(99, 102, 241, 0.4);
+      --primary-accent: #6366f1;
+      --secondary-accent: #818cf8;
+      --highlight-glow: rgba(99, 102, 241, 0.15);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+      --tag-bg: rgba(99, 102, 241, 0.12);
+      --tag-text: #a5b4fc;
+      --badge-bg: rgba(243, 244, 246, 0.05);
+      --badge-border: rgba(255, 255, 255, 0.1);
+      --code-bg: rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* HEADER STYLE */
+    header {
+      text-align: center;
+      margin-bottom: 4rem;
+      padding-top: 1rem;
+    }
+
+    .sub-badge {
+      display: inline-block;
+      padding: 0.35rem 1rem;
+      background: var(--tag-bg);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: var(--tag-text);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(to right, #ffffff, #a5b4fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    /* SECTION LAYOUT */
+    section {
+      margin-bottom: 4rem;
+    }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 0.75rem;
+    }
+
+    .section-title-wrap h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* CARDS & GRIDS */
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--card-hover-border);
+      box-shadow: 0 12px 30px var(--highlight-glow);
+    }
+
+    .card-num {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.5rem;
+      font-size: 2rem;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.08);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .card h3 {
+      font-size: 1.35rem;
+      color: #ffffff;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-tagline {
+      color: var(--secondary-accent);
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+      flex-grow: 1;
+    }
+
+    .card-analogous {
+      background: rgba(99, 102, 241, 0.05);
+      border-left: 3px solid var(--primary-accent);
+      padding: 0.75rem 1rem;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.9rem;
+      color: #d1d5db;
+      margin-bottom: 1.25rem;
+    }
+
+    /* LIST SECTIONS WITHIN CARDS */
+    .list-block {
+      margin-top: auto;
+    }
+
+    .list-block-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .chip {
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: #e5e7eb;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+    }
+
+    .chip-alt {
+      background: var(--tag-bg);
+      border-color: rgba(99, 102, 241, 0.2);
+      color: var(--tag-text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+    }
+
+    /* FEATURED ARTICLE / DEEP DIVE */
+    .feature-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+
+    .feature-box p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .breakdown-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .breakdown-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+
+    .breakdown-card h4 {
+      color: var(--secondary-accent);
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .breakdown-card p {
+      font-size: 0.88rem;
+      margin-bottom: 0;
+    }
+
+    /* TABLE COMPARISON STYLE */
+    .table-container {
+      overflow-x: auto;
+      margin: 2rem 0;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.03);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    td strong {
+      color: #fff;
+    }
+
+    .model-header {
+      color: var(--secondary-accent);
+      font-weight: 700;
+    }
+
+    /* FOOTER / CALLOUT */
+    .callout {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(129, 140, 248, 0.05));
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+
+    .callout h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.2rem; }
+      body { padding: 1rem 0.5rem; }
+      .card { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- HEADER -->
+    <header>
+      <span class="sub-badge">AI Mental Models & Glossary</span>
+      <h1>AI Vocabulary & Framework</h1>
+      <p>Demystifying the building blocks of modern AI tools, operating concepts, and structural trade-offs.</p>
+    </header>
+
+    <!-- PART 1: THE SETUP -->
+    <section>
+      <div class="section-title-wrap">
+        <h2>Part 1: The Setup</h2>
+        <span class="section-subtitle">Where AI lives, runs, and presents itself</span>
+      </div>
+
+      <div class="grid grid-3">
+
+        <!-- 1. MODEL -->
+        <div class="card">
+          <span class="card-num">01</span>
+          <h3>Model</h3>
+          <div class="card-tagline">The brain. The actual AI doing the thinking.</div>
+          <p>The same brain can show up in lots of different places — when you use Claude inside Cursor, that's the same Claude that's on claude.ai.</p>
+          
+          <div class="list-block">
+            <div class="list-block-title">Examples</div>
+            <div class="chips">
+              <span class="chip">Claude (Opus, Sonnet, Haiku)</span>
+              <span class="chip">GPT (4, 5)</span>
+              <span class="chip">Gemini</span>
+              <span class="chip">Llama</span>
+              <span class="chip">DeepSeek</span>
+            </div>
+
+            <div class="list-block-title">You might also hear</div>
+            <div class="chips">
+              <span class="chip chip-alt">LLM</span>
+              <span class="chip chip-alt">large language model</span>
+              <span class="chip chip-alt">foundation model</span>
+              <span class="chip chip-alt">"the AI"</span>
+              <span class="chip chip-alt">frontier model</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. APP -->
+        <div class="card">
+          <span class="card-num">02</span>
+          <h3>App</h3>
+          <div class="card-tagline">The way you talk to the brain.</div>
+          <p>The product wrapped around the model. Different apps are designed for different jobs — chatting in a browser, coding in your terminal, drafting in a doc — but the brain inside is often the same.</p>
+          
+          <div class="list-block">
+            <div class="list-block-title">Examples</div>
+            <div class="chips">
+              <span class="chip">Claude.ai</span>
+              <span class="chip">Claude Code</span>
+              <span class="chip">Cowork</span>
+              <span class="chip">ChatGPT</span>
+              <span class="chip">Cursor</span>
+              <span class="chip">GitHub Copilot</span>
+              <span class="chip">Lovable, v0</span>
+            </div>
+
+            <div class="list-block-title">You might also hear</div>
+            <div class="chips">
+              <span class="chip chip-alt">client</span>
+              <span class="chip chip-alt">interface</span>
+              <span class="chip chip-alt">product</span>
+              <span class="chip chip-alt">surface</span>
+              <span class="chip chip-alt">harness</span>
+              <span class="chip chip-alt">wrapper</span>
+              <span class="chip chip-alt">IDE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. ENVIRONMENT -->
+        <div class="card">
+          <span class="card-num">03</span>
+          <h3>Environment</h3>
+          <div class="card-tagline">Where it runs and what it can reach.</div>
+          <p>The same model in a different environment has wildly different powers. You don't usually pick the environment directly — you pick the app, and the environment comes with it.</p>
+          
+          <div class="card-analogous">
+            <strong>Analogy:</strong> A doctor at a coffee shop vs. a doctor in a hospital are the same doctor — but only one can perform surgery because of the building and tools surrounding them.
+          </div>
+
+          <div class="list-block">
+            <div class="list-block-title">Examples</div>
+            <div class="chips">
+              <span class="chip">Cloud only (ChatGPT, Claude.ai)</span>
+              <span class="chip">Cloud sandbox + connected folders (Cowork)</span>
+              <span class="chip">Your laptop, full access (Claude Code, Cursor)</span>
+            </div>
+
+            <div class="list-block-title">You might also hear</div>
+            <div class="chips">
+              <span class="chip chip-alt">sandbox</span>
+              <span class="chip chip-alt">runtime</span>
+              <span class="chip chip-alt">host</span>
+              <span class="chip chip-alt">workspace</span>
+              <span class="chip chip-alt">local vs. cloud</span>
+              <span class="chip chip-alt">container</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PART 2: THE OPERATING CONCEPTS -->
+    <section>
+      <div class="section-title-wrap">
+        <h2>Part 2: The Operating Concepts</h2>
+        <span class="section-subtitle">Every AI workflow is a combination of these four</span>
+      </div>
+
+      <div class="grid grid-4">
+
+        <!-- 1. INSTRUCTIONS -->
+        <div class="card">
+          <span class="card-num">01</span>
+          <h3>Instructions</h3>
+          <div class="card-tagline">What you want it to do.</div>
+          <p>Anything you write down once so you don't have to say it every time. Save rules somewhere the AI can read if you plan to do a workflow repeatedly.</p>
+          
+          <div class="list-block">
+            <div class="list-block-title">Examples</div>
+            <div class="chips">
+              <span class="chip">Saved "weekly update" prompt</span>
+              <span class="chip">CLAUDE.md file in a project</span>
+              <span class="chip">Custom GPT's instructions</span>
+              <span class="chip">Claude Code skill</span>
+            </div>
+
+            <div class="list-block-title">You might also hear</div>
+            <div class="chips">
+              <span class="chip chip-alt">skill</span>
+              <span class="chip chip-alt">prompt</span>
+              <span class="chip chip-alt">system prompt</span>
+              <span class="chip chip-alt">custom instructions</span>
+              <span class="chip chip-alt">persona</span>
+              <span class="chip chip-alt">CLAUDE.md</span>
+              <span class="chip chip-alt">.cursorrules</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. TOOLS -->
+        <div class="card">
+          <span class="card-num">02</span>
+          <h3>Tools</h3>
+          <div class="card-tagline">Actions it takes on your behalf.</div>
+          <p>Anything the AI does instead of just talking. Searching the web, writing files, reading calendars, sending emails, or running code.</p>
+          
+          <div class="list-block">
+            <div class="list-block-title">Examples</div>
+            <div class="chips">
+              <span class="chip">Web search</span>
+              <span class="chip">Read/write files</span>
+              <span class="chip">Read calendar</span>
+              <span class="chip">Send email</span>
+              <span class="chip">Run code</span>
+            </div>
+
+            <div class="list-block-title">You might also hear</div>
+            <div class="chips">
+              <span class="chip chip-alt">function calls</span>
+              <span class="chip chip-alt">tool use</span>
+              <span class="chip chip-alt">actions</span>
+              <span class="chip chip-alt">capabilities</span>
+              <span class="chip chip-alt">computer use</span>
+              <span class="chip chip-alt">browser use</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. CONNECTIONS -->
+        <div class="card">
+          <span class="card-num">03</span>
+          <h3>Connections</h3>
+          <div class="card-tagline">Where info comes from & goes.</div>
+          <p>The other apps you want the AI to access — inbox, calendar, Drive, Slack, Notion. Connections let the AI read/write on your behalf.</p>
+          
+          <div class="list-block">
+            <div class="list-block-title">Examples</div>
+            <div class="chips">
+              <span class="chip">Gmail & Calendar</span>
+              <span class="chip">Drive, Dropbox, Notion</span>
+              <span class="chip">Slack</span>
+              <span class="chip">GitHub</span>
+              <span class="chip">Folder on your Mac</span>
+            </div>
+
+            <div class="list-block-title">You might also hear</div>
+            <div class="chips">
+              <span class="chip chip-alt">integration</span>
+              <span class="chip chip-alt">connector</span>
+              <span class="chip chip-alt">MCP / MCP server</span>
+              <span class="chip chip-alt">API</span>
+              <span class="chip chip-alt">plugin</span>
+              <span class="chip chip-alt">data source</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. TRIGGERS -->
+        <div class="card">
+          <span class="card-num">04</span>
+          <h3>Triggers</h3>
+          <div class="card-tagline">How it gets kicked off.</div>
+          <p>Something has to start the AI. Beyond typing, you can fire prompts on a schedule or when events happen in other applications.</p>
+          
+          <div class="list-block">
+            <div class="list-block-title">Examples</div>
+            <div class="chips">
+              <span class="chip">You typing in chat</span>
+              <span class="chip">Slash command (/weekly-brief)</span>
+              <span class="chip">Daily 9am schedule</span>
+              <span class="chip">Email arriving</span>
+              <span class="chip">Push to GitHub</span>
+            </div>
+
+            <div class="list-block-title">You might also hear</div>
+            <div class="chips">
+              <span class="chip chip-alt">schedule</span>
+              <span class="chip chip-alt">cron / cron job</span>
+              <span class="chip chip-alt">automation</span>
+              <span class="chip chip-alt">routine</span>
+              <span class="chip chip-alt">webhook</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CASE STUDY: WHY THIS MATTERS -->
+    <section>
+      <div class="section-title-wrap">
+        <h2>Why Does This Matter?</h2>
+        <span class="section-subtitle">Cutting through the noise of new terms</span>
+      </div>
+
+      <div class="feature-box">
+        <p>Part of why AI feels so noisy is that new words keep emerging to describe different combinations of these building blocks. If you understand the core blocks, you can ignore the noise.</p>
+        
+        <p><strong>Case Study: OpenClaw vs. Standard Assistants</strong></p>
+        
+        <div class="breakdown-grid">
+          <div class="breakdown-card">
+            <h4>Always-on Environment</h4>
+            <p>Runs on standalone hardware or cloud servers — continues working even when your laptop is closed.</p>
+          </div>
+          <div class="breakdown-card">
+            <h4>Sandboxed Safety</h4>
+            <p>Walled-off execution. The AI can run free within its sandbox without risking sensitive files elsewhere.</p>
+          </div>
+          <div class="breakdown-card">
+            <h4>Mobile & Automated Triggers</h4>
+            <p>Uses "heartbeats" (e.g. checking every 30 mins) or mobile messages (WhatsApp) to kick off async tasks.</p>
+          </div>
+          <div class="breakdown-card">
+            <h4>Adaptive Tooling</h4>
+            <p>If blocked (e.g. OpenTable blocking bots), it can write code to invoke voice APIs and call via phone.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANTHROPIC APPROACH & COMPARISON -->
+    <section>
+      <div class="section-title-wrap">
+        <h2>How Anthropic Approaches This</h2>
+        <span class="section-subtitle">Same brain (Claude), four distinct product approaches</span>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Claude.ai</th>
+              <th>Claude Desktop App</th>
+              <th>Cowork</th>
+              <th>Claude Code</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Surface / Interface</strong></td>
+              <td>Browser</td>
+              <td>Claude chat</td>
+              <td>Desktop App</td>
+              <td>Terminal & Desktop App</td>
+            </tr>
+            <tr>
+              <td><strong>Environment</strong></td>
+              <td>Cloud only</td>
+              <td>Cloud only</td>
+              <td>Your machine (Sandboxed)</td>
+              <td>Your machine (Full access)</td>
+            </tr>
+            <tr>
+              <td><strong>Instructions</strong></td>
+              <td>None saved</td>
+              <td>Custom prompts / Projects</td>
+              <td>Rich + Reusable context</td>
+              <td>Rich + Reusable (CLAUDE.md)</td>
+            </tr>
+            <tr>
+              <td><strong>Tools</strong></td>
+              <td>Chat only</td>
+              <td>Search, Artifacts, Code</td>
+              <td>Many local/cloud actions</td>
+              <td>Full file & system capabilities</td>
+            </tr>
+            <tr>
+              <td><strong>Connections</strong></td>
+              <td>None</td>
+              <td>Gmail, Calendar, Drive, GitHub</td>
+              <td>Deeply wired enterprise tools</td>
+              <td>Local system & direct files</td>
+            </tr>
+            <tr>
+              <td><strong>Triggers</strong></td>
+              <td>Manual (typing)</td>
+              <td>Manual</td>
+              <td>Scheduled & Automatic</td>
+              <td>Manual / CLI scripts</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="color: var(--text-muted); font-size: 0.95rem;">
+        <em>Notice the progression:</em> The further right you go, the more the AI can do — but the more setup, trust, and system access you grant.
+      </p>
+    </section>
+
+    <!-- CALLOUT / INCENTIVES -->
+    <div class="callout">
+      <h3>Understanding Ecosystem Incentives</h3>
+      <p style="color: #d1d5db; line-height: 1.7; margin-bottom: 1rem;">
+        <strong>Model Provider Incentives:</strong> Vendors prefer lock-in. If your skills, memories, and connectors live inside proprietary platforms like Cowork, switching models means rebuilding. If they live as plain files on your laptop (like <code>CLAUDE.md</code> in Claude Code), you remain model-agnostic.
+      </p>
+      <p style="color: #d1d5db; line-height: 1.7;">
+        <strong>Enterprise Incentives:</strong> Companies seek to mitigate risk, protect PII, and prevent data loss. These reasonable goals naturally push toward cloud-hosted, sandboxed, opt-in environments with controlled tool access.
+      </p>
+    </div>
+
+  </div>
+
+</body>
+</html>
