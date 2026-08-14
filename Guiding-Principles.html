@@ -230,14 +230,20 @@
       align-items: center;
       gap: 0.5rem;
       transition: all 0.2s ease;
+      user-select: none;
     }
 
     .vote-btn:hover {
       border-color: var(--accent-amber);
       color: var(--accent-amber);
+      transform: translateY(-1px);
     }
 
-    .vote-btn.voted {
+    .vote-btn:active {
+      transform: scale(0.95);
+    }
+
+    .vote-btn.has-votes {
       background: rgba(245, 158, 11, 0.15);
       border-color: var(--accent-amber);
       color: var(--accent-amber);
@@ -373,26 +379,32 @@
   </div>
 
   <script>
-    // Initial themes list with all votes reset to 0
-    let themes = [
-      { id: 1, title: "Productivity Hacks", votes: 0, userVoted: false },
-      { id: 2, title: "Setting Data Foundations", votes: 0, userVoted: false },
-      { id: 3, title: "Territory Planning", votes: 0, userVoted: false },
-      { id: 4, title: "Client Meeting Prep", votes: 0, userVoted: false },
-      { id: 5, title: "Multithreading / Outreach", votes: 0, userVoted: false },
-      { id: 6, title: "Market Intel + Research", votes: 0, userVoted: false },
-      { id: 7, title: "Webinar / Event Planning", votes: 0, userVoted: false },
-      { id: 8, title: "Pilot Management", votes: 0, userVoted: false },
-      { id: 9, title: "Client FAQ Guides", votes: 0, userVoted: false },
-      { id: 10, title: "Objection Handling / Coaching", votes: 0, userVoted: false }
+    const defaultThemes = [
+      { id: 1, title: "Productivity Hacks", votes: 0 },
+      { id: 2, title: "Setting Data Foundations", votes: 0 },
+      { id: 3, title: "Territory Planning", votes: 0 },
+      { id: 4, title: "Client Meeting Prep", votes: 0 },
+      { id: 5, title: "Multithreading / Outreach", votes: 0 },
+      { id: 6, title: "Market Intel + Research", votes: 0 },
+      { id: 7, title: "Webinar / Event Planning", votes: 0 },
+      { id: 8, title: "Pilot Management", votes: 0 },
+      { id: 9, title: "Client FAQ Guides", votes: 0 },
+      { id: 10, title: "Objection Handling / Coaching", votes: 0 }
     ];
+
+    // Load saved votes/themes from localStorage if available
+    let themes = JSON.parse(localStorage.getItem('kopicode_themes')) || defaultThemes;
 
     const themesGrid = document.getElementById('themesGrid');
     const addTopicForm = document.getElementById('addTopicForm');
     const newTopicInput = document.getElementById('newTopicInput');
 
+    function saveThemes() {
+      localStorage.setItem('kopicode_themes', JSON.stringify(themes));
+    }
+
     function renderThemes() {
-      // Sort themes by vote count (highest first), preserving initial ID order when tied at 0
+      // Sort themes by vote count (highest first), preserving initial ID order when tied
       themes.sort((a, b) => b.votes - a.votes || a.id - b.id);
 
       themesGrid.innerHTML = '';
@@ -401,7 +413,7 @@
         card.className = 'theme-card';
         card.innerHTML = `
           <div class="theme-title">${theme.title}</div>
-          <button class="vote-btn ${theme.userVoted ? 'voted' : ''}" onclick="toggleVote(${theme.id})">
+          <button class="vote-btn ${theme.votes > 0 ? 'has-votes' : ''}" onclick="addVote(${theme.id})">
             <span>▲</span>
             <span>${theme.votes}</span>
           </button>
@@ -410,16 +422,12 @@
       });
     }
 
-    function toggleVote(id) {
+    // Unlimited vote function: increments votes on every click
+    function addVote(id) {
       const theme = themes.find(t => t.id === id);
       if (theme) {
-        if (theme.userVoted) {
-          theme.votes--;
-          theme.userVoted = false;
-        } else {
-          theme.votes++;
-          theme.userVoted = true;
-        }
+        theme.votes++;
+        saveThemes();
         renderThemes();
       }
     }
@@ -431,9 +439,9 @@
         themes.push({
           id: Date.now(),
           title: title,
-          votes: 1,
-          userVoted: true
+          votes: 1
         });
+        saveThemes();
         newTopicInput.value = '';
         renderThemes();
       }
