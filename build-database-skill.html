@@ -1,0 +1,618 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kopi &amp; Code — Part II: Build a Database Skill</title>
+<style>
+  :root{
+    --bg:#0b0c10;
+    --panel:#14161f;
+    --panel-2:#1a1d28;
+    --code:#0f1117;
+    --line:#272b38;
+    --amber:#f5a623;
+    --blue:#4da3f5;
+    --ink:#eceef2;
+    --muted:#9aa3ae;
+    --green:#4ade80;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 34px 150px;}
+
+  /* ---------- masthead ---------- */
+  .masthead{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;padding-bottom:18px;border-bottom:1px solid var(--line);
+  }
+  .badge{
+    display:inline-block;padding:9px 20px;border-radius:999px;
+    border:1px solid rgba(245,166,35,.55);
+    background:rgba(245,166,35,.09);
+    color:var(--amber);font-weight:800;font-size:13px;letter-spacing:.11em;
+  }
+  .counter{color:var(--muted);font-size:15px;white-space:nowrap;}
+
+  /* ---------- slides ---------- */
+  .slide{display:none;padding-top:34px;animation:fade .22s ease-out;}
+  .slide.on{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  .eyebrow{color:var(--amber);font-weight:800;font-size:13px;letter-spacing:.13em;margin-bottom:10px;}
+  h1{font-size:44px;line-height:1.12;margin:0 0 14px;letter-spacing:-.015em;font-weight:800;}
+  h2{font-size:34px;line-height:1.15;margin:0 0 12px;letter-spacing:-.01em;font-weight:800;}
+  .lede{color:var(--muted);font-size:19px;margin:0 0 30px;max-width:900px;}
+
+  /* ---------- cards ---------- */
+  .grid{display:grid;gap:20px;}
+  .g2{grid-template-columns:repeat(2,1fr);}
+  .g3{grid-template-columns:repeat(3,1fr);}
+  .g4{grid-template-columns:repeat(4,1fr);}
+  .card{
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:12px;padding:24px 24px 26px;
+  }
+  .card.topline{border-top:3px solid var(--amber);}
+  .card h3{
+    margin:0 0 12px;font-size:19px;font-weight:800;color:var(--blue);
+    letter-spacing:-.005em;
+  }
+  .card.topline h3{color:var(--ink);}
+  .card p{margin:0 0 12px;color:#c3cad3;font-size:16px;}
+  .card p:last-child{margin-bottom:0;}
+  .card .tag{
+    display:inline-block;margin-bottom:12px;font-size:11px;font-weight:800;
+    letter-spacing:.12em;color:var(--amber);
+  }
+  .inpractice{
+    margin-top:14px;padding-top:14px;border-top:1px solid var(--line);
+    color:var(--muted);font-size:15px;
+  }
+  .inpractice b{color:#cfd6de;font-weight:700;}
+
+  /* ---------- track chooser ---------- */
+  .track{
+    background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--blue);
+    border-radius:12px;padding:24px;
+  }
+  .track .who{
+    display:inline-block;margin-bottom:12px;font-size:11px;font-weight:800;
+    letter-spacing:.12em;color:var(--amber);
+  }
+  .track h3{margin:0 0 10px;font-size:20px;font-weight:800;color:var(--ink);}
+  .track p{margin:0;color:#c3cad3;font-size:16px;}
+
+  /* ---------- quote ---------- */
+  .quote{
+    background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--amber);
+    border-radius:12px;padding:34px 38px;margin-bottom:26px;
+  }
+  .quote p{margin:0;font-size:27px;line-height:1.42;font-weight:600;letter-spacing:-.01em;}
+
+  /* ---------- build sequence ---------- */
+  .seq{
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:14px;padding:28px 28px 30px;
+  }
+  .seq > .intro{color:var(--muted);font-size:17px;margin:0 0 26px;}
+  .steplabel{
+    color:var(--blue);font-weight:800;font-size:16px;margin:0 0 10px;
+    letter-spacing:.01em;
+  }
+  .stepnote{color:var(--muted);font-size:15px;margin:0 0 12px;}
+  .promptbox{
+    position:relative;background:var(--code);border:1px solid var(--line);
+    border-radius:10px;padding:64px 26px 24px;margin-bottom:30px;
+  }
+  .promptbox:last-child{margin-bottom:0;}
+  .promptbox pre{
+    margin:0;white-space:pre-wrap;word-wrap:break-word;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+    font-size:14.5px;line-height:1.72;color:#dbe2ea;
+  }
+  .promptbox pre .ph{color:var(--amber);}
+  .copybtn{
+    position:absolute;top:14px;right:14px;
+    background:var(--panel-2);color:#d7dde5;
+    border:1px solid var(--line);border-radius:8px;
+    padding:9px 16px;font-size:13.5px;font-weight:600;cursor:pointer;
+    font-family:inherit;transition:all .14s ease;
+  }
+  .copybtn:hover{background:#232734;color:#fff;border-color:#3a4152;}
+  .copybtn.done{background:rgba(74,222,128,.14);color:var(--green);border-color:rgba(74,222,128,.45);}
+
+  /* ---------- refine beat ---------- */
+  .refine{
+    background:rgba(245,166,35,.05);
+    border:1px dashed rgba(245,166,35,.42);
+    border-radius:10px;padding:24px 26px;margin-bottom:30px;
+  }
+  .refine .rlabel{
+    color:var(--amber);font-weight:800;font-size:13px;letter-spacing:.13em;margin-bottom:12px;
+  }
+  .refine > p{margin:0 0 16px;color:#c3cad3;font-size:16px;}
+  .refine ul{margin:0;padding-left:0;list-style:none;}
+  .refine li{
+    margin-bottom:11px;padding-left:22px;position:relative;
+    color:#cfd6de;font-size:15.5px;font-style:italic;
+  }
+  .refine li:last-child{margin-bottom:0;}
+  .refine li:before{
+    content:"\201C";position:absolute;left:0;top:1px;
+    color:var(--amber);font-size:21px;font-style:normal;line-height:1;
+  }
+  .refine .after{
+    margin:16px 0 0;padding-top:15px;border-top:1px solid rgba(245,166,35,.22);
+    color:var(--muted);font-size:15px;font-style:normal;
+  }
+
+  /* ---------- misc ---------- */
+  .callout{
+    background:rgba(77,163,245,.07);border:1px solid rgba(77,163,245,.28);
+    border-radius:12px;padding:22px 26px;margin-top:26px;
+  }
+  .callout p{margin:0;color:#cfdcea;font-size:16.5px;}
+  .callout b{color:var(--blue);}
+  .warn{
+    background:rgba(245,166,35,.07);border:1px solid rgba(245,166,35,.3);
+    border-radius:12px;padding:22px 26px;margin-top:26px;
+  }
+  .warn p{margin:0;color:#e6dcc7;font-size:16.5px;}
+  .warn b{color:var(--amber);}
+  ul.plain{margin:0;padding-left:22px;color:#c3cad3;}
+  ul.plain li{margin-bottom:10px;font-size:16px;}
+  ul.plain li:last-child{margin-bottom:0;}
+  .sectionhead{
+    font-size:13px;font-weight:800;letter-spacing:.13em;color:var(--amber);
+    margin:34px 0 16px;
+  }
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:fixed;left:0;right:0;bottom:0;
+    background:rgba(11,12,16,.94);backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);padding:16px 34px;
+  }
+  .navinner{
+    max-width:1180px;margin:0 auto;display:flex;align-items:center;
+    justify-content:space-between;gap:16px;
+  }
+  .navbtn{
+    background:var(--panel-2);color:var(--ink);border:1px solid var(--line);
+    border-radius:9px;padding:12px 24px;font-size:15px;font-weight:600;
+    cursor:pointer;font-family:inherit;transition:all .14s ease;white-space:nowrap;
+  }
+  .navbtn:hover:not(:disabled){background:#282d3b;border-color:#3a4152;}
+  .navbtn:disabled{opacity:.35;cursor:default;}
+  select#jump{
+    flex:1;max-width:520px;background:var(--panel-2);color:var(--ink);
+    border:1px solid var(--line);border-radius:9px;padding:12px 16px;
+    font-size:15px;font-family:inherit;cursor:pointer;
+  }
+
+  @media (max-width:900px){
+    .wrap{padding:20px 18px 170px;}
+    .g2,.g3,.g4{grid-template-columns:1fr;}
+    h1{font-size:32px;} h2{font-size:26px;}
+    .quote p{font-size:21px;}
+    .quote{padding:24px 22px;}
+    .seq{padding:20px 16px 22px;}
+    .promptbox{padding:56px 16px 18px;}
+    .copybtn{top:12px;right:12px;}
+    .refine{padding:20px 18px;}
+    .navinner{flex-wrap:wrap;justify-content:center;}
+    select#jump{order:-1;max-width:100%;flex-basis:100%;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <span class="badge">KOPI &amp; CODE • COWORK DATABASE FOUNDATIONS</span>
+    <span class="counter" id="counter">Slide 1 of 8</span>
+  </div>
+
+  <!-- 1 ................................................................. -->
+  <section class="slide on" data-title="1. Part II: Build a Database Skill">
+    <div class="eyebrow">PART II</div>
+    <h1>Build a Database Skill</h1>
+    <p class="lede">Everything from the hands-on half of the session, in your own time. Work through it at your own pace &mdash; every prompt on this page is ready to copy and paste straight into Cowork.</p>
+    <div class="grid g3">
+      <div class="card">
+        <h3>Design before you prompt</h3>
+        <p>Four questions that turn a vague idea into a database Cowork can actually build.</p>
+      </div>
+      <div class="card">
+        <h3>Pick your build</h3>
+        <p>Two worked examples &mdash; a call log and a product health tracker. Choose the one closest to your day job and build that one.</p>
+      </div>
+      <div class="card">
+        <h3>Save it as a Skill</h3>
+        <p>Once it returns what you actually want, teach the process to Cowork once so you never rebuild it.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <p><b>How to use this page:</b> click through with the arrows at the bottom, or jump straight to a section with the dropdown. Your keyboard arrow keys work too.</p>
+    </div>
+  </section>
+
+  <!-- 2 ................................................................. -->
+  <section class="slide" data-title="2. Start With the Problem">
+    <div class="eyebrow">PART II • STEP 1</div>
+    <h2>Start With the Problem</h2>
+    <p class="lede">Every good Skill starts from a real, annoying, repetitive job &mdash; stated plainly.</p>
+    <div class="quote">
+      <p>&ldquo;I want to create a database to track my client interactions and identify churn risk and upsell opportunities.&rdquo;</p>
+    </div>
+    <div class="grid g3">
+      <div class="card">
+        <h3>Why state it out loud</h3>
+        <p>If you can't say the job in one sentence, the prompt won't be any clearer. The sentence above is the whole brief.</p>
+      </div>
+      <div class="card">
+        <h3>Why this one hurts</h3>
+        <p>The information already exists &mdash; scattered across call recaps, usage data, notes and your own memory. Nobody has time to reconcile it weekly.</p>
+      </div>
+      <div class="card">
+        <h3>Your version</h3>
+        <p>Swap in the repetitive job that eats your week. The rest of this page works the same way regardless of what you put in that sentence.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 ................................................................. -->
+  <section class="slide" data-title="3. The Design Method: Four Questions">
+    <div class="eyebrow">PART II • STEP 2</div>
+    <h2>Answer Four Questions First</h2>
+    <p class="lede">Do this before you open Cowork. Your answers become the content of the prompt &mdash; and later, the content of the Skill.</p>
+    <div class="grid g2">
+      <div class="card">
+        <span class="tag">STEP 01</span>
+        <h3>Locate your sources</h3>
+        <p>List every place this data already lives &mdash; call-analysis emails, Gainsight, your inbox, Teams, your own notes. Cowork can only use what you can point it to.</p>
+        <div class="inpractice"><b>In practice:</b> Gong call-analysis emails, Gainsight notes, your renewal tracker.</div>
+      </div>
+      <div class="card">
+        <span class="tag">STEP 02</span>
+        <h3>Name the gaps</h3>
+        <p>Be explicit about what no source covers today &mdash; verbal commitments, sentiment, competitor mentions. Gaps are the fields you still fill in by hand.</p>
+        <div class="inpractice"><b>In practice:</b> the promise made on the call that never reached Gainsight.</div>
+      </div>
+      <div class="card">
+        <span class="tag">STEP 03</span>
+        <h3>Define your signals</h3>
+        <p>Write down what churn risk and upsell actually look like in your data. This one decides your columns &mdash; you can't build the right table without it.</p>
+        <div class="inpractice"><b>In practice:</b> activation under 60% = risk; over 90% and rising = upsell.</div>
+      </div>
+      <div class="card">
+        <span class="tag">STEP 04</span>
+        <h3>Define the update loop</h3>
+        <p>Decide what triggers a refresh and how often &mdash; after every call, weekly, or monthly. You won't act on this today: it's the last thing you do, and it's what Part 3 turns into a scheduled task.</p>
+        <div class="inpractice"><b>In practice:</b> a Monday 8am sweep of last week's calls and new emails.</div>
+      </div>
+    </div>
+    <div class="warn">
+      <p><b>The one people skip:</b> Step 03. Skip it and you get a database that describes your accounts but never tells you to act.</p>
+    </div>
+    <div class="callout">
+      <p><b>Why this order:</b> the four questions run in the same sequence as the session &mdash; <b>build</b> (01), <b>refine</b> (02), <b>skill</b> (03), <b>schedule</b> (04). Answer them top to bottom and you've written your prompt without realising it.</p>
+    </div>
+    <div class="sectionhead">NOW PICK YOUR BUILD</div>
+    <div class="grid g2">
+      <div class="track">
+        <span class="who">BUILD A &nbsp;•&nbsp; THE QUALITATIVE SIGNAL</span>
+        <h3>Gong Call Recordings Database</h3>
+        <p>What your customers actually <em>said</em>. Best if your early warning tends to come from conversations &mdash; tone, objections, a champion going quiet.</p>
+      </div>
+      <div class="track">
+        <span class="who">BUILD B &nbsp;•&nbsp; THE QUANTITATIVE SIGNAL</span>
+        <h3>Product Health Database</h3>
+        <p>What the product data <em>shows</em>. Best if your early warning tends to come from usage &mdash; activation stalling, seats going unused, adoption sliding.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <p><b>Build one, not both.</b> They use the identical three-beat pattern, so once you've done either, you can read the other in two minutes and build it whenever you need it.</p>
+    </div>
+  </section>
+
+  <!-- 4 ................................................................. -->
+  <section class="slide" data-title="4. Build A: Gong Call Recordings Database">
+    <div class="eyebrow">PART II • BUILD A</div>
+    <h2>Gong Call Recordings Database</h2>
+    <p class="lede">The qualitative signal &mdash; what your customers actually said. Build it, refine it until it's right, then ask it a question.</p>
+    <div class="seq">
+      <p class="intro">Run these in the same chat. Notice the build prompt already states what you want to detect &mdash; that's what decides the columns.</p>
+
+      <p class="steplabel">STEP 1: Build it</p>
+      <p class="stepnote">Say what you're trying to spot up front, so the table is designed to answer that question.</p>
+      <div class="promptbox">
+        <button class="copybtn">Copy Prompt</button>
+        <pre>I want a database that helps me spot churn risk and upsell opportunities from what customers say on calls.
+
+Search my email for Gong call analysis emails from the last 90 days.
+
+Create a spreadsheet in my OneDrive called Gong Call Log with one row per call and these columns: date, account, attendees, call purpose, key topics discussed, customer sentiment, objections raised, and agreed next steps.
+
+So I can flag risk later, also capture whether each call mentioned: pricing pressure, a champion or key stakeholder leaving, or hiring slowing down.
+
+Fill it in from those emails. If something isn't mentioned in the email, leave it blank rather than guessing.</pre>
+      </div>
+
+      <div class="refine">
+        <div class="rlabel">STEP 2: REFINE IT &mdash; THIS IS WHERE THE TIME GOES</div>
+        <p>You will not get it right first time, and that's the normal experience rather than a failure. Open the spreadsheet, find what's wrong, and say so in plain language. Real corrections sound like:</p>
+        <ul>
+          <li>The account column is picking up the sender's company, not the customer. Use the company in the subject line instead.</li>
+          <li>Split &lsquo;agreed next steps&rsquo; into two columns: what I owe them, and what they owe me.</li>
+          <li>Ignore internal calls &mdash; only include calls where someone outside LinkedIn was on the invite.</li>
+          <li>&lsquo;Sentiment&rsquo; is too vague. Use positive, neutral or at risk, and tell me which phrase made you choose it.</li>
+        </ul>
+        <p class="after">Keep going until you'd trust the table in front of your manager. Every correction you make here gets baked into the Skill later &mdash; so this step is doing double duty.</p>
+      </div>
+
+      <p class="steplabel">STEP 3: Ask it the question</p>
+      <p class="stepnote">This proves the table works. It's also the prompt you'll reuse every week.</p>
+      <div class="promptbox">
+        <button class="copybtn">Copy Prompt</button>
+        <pre>Read Gong Call Log and flag any account whose last two calls mention pricing pressure, a champion leaving, or hiring on pause.
+
+Show each flag with the quote from the call that triggered it, so I can judge it myself rather than taking your word for it.
+
+Then list any account I haven't had a call with in over 60 days.</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 ................................................................. -->
+  <section class="slide" data-title="5. Build B: Product Health Database">
+    <div class="eyebrow">PART II • BUILD B</div>
+    <h2>Product Health Database</h2>
+    <p class="lede">The quantitative signal &mdash; what the product data shows. Same three beats: build, refine, then ask.</p>
+    <div class="seq">
+      <p class="intro">The pattern is deliberately identical to Build A. That repeatability is the actual lesson &mdash; the subject changes, the shape doesn't.</p>
+
+      <p class="steplabel">STEP 1: Build it</p>
+      <p class="stepnote">Your thresholds from Step 04 of the design method belong right here, in the build.</p>
+      <div class="promptbox">
+        <button class="copybtn">Copy Prompt</button>
+        <pre>I want a database that helps me spot churn risk and upsell opportunities from how my accounts are actually using the product.
+
+Create a spreadsheet in my OneDrive called Product Health with one row per account and these columns: contract seats, seats activated, activation rate, weekly active recruiters, InMail acceptance rate, Hiring Assistant adoption, last QBR date, renewal date, and open RTA.
+
+Populate it from my most recent usage export. Leave any field blank that the export doesn't cover — don't estimate.
+
+Show activation rate as a percentage of contract seats, since that's the number I'll be judging risk on.</pre>
+      </div>
+
+      <div class="refine">
+        <div class="rlabel">STEP 2: REFINE IT &mdash; THIS IS WHERE THE TIME GOES</div>
+        <p>Usage exports are messy and yours won't match this template exactly. Open the spreadsheet, find what's off, and correct it conversationally. Real corrections sound like:</p>
+        <ul>
+          <li>Drop the InMail column &mdash; we don't sell that to these accounts.</li>
+          <li>Add a column for days until renewal, calculated from today's date.</li>
+          <li>Some accounts appear twice under slightly different names. Merge them and keep the higher seat count.</li>
+          <li>Sort it by open RTA, highest first, so the accounts that matter most are at the top.</li>
+        </ul>
+        <p class="after">Keep going until you'd trust the table in front of your manager. Every correction you make here gets baked into the Skill later &mdash; so this step is doing double duty.</p>
+      </div>
+
+      <p class="steplabel">STEP 3: Ask it the question</p>
+      <p class="stepnote">Now the thresholds earn their keep. Change the numbers to ones you'd actually defend.</p>
+      <div class="promptbox">
+        <button class="copybtn">Copy Prompt</button>
+        <pre>Read Product Health and flag churn risk where activation is under 60%, or where weekly active recruiters have fallen two months running.
+
+Flag upsell opportunity where activation is above 90% and Hiring Assistant adoption is rising.
+
+Sort by open RTA, highest first, and tell me which three accounts I should act on this week and why.</pre>
+      </div>
+    </div>
+    <div class="callout">
+      <p><b>60% and 90% are examples, not standards.</b> Use whatever you'd defend in a pipeline review. The value isn't in the number &mdash; it's in having written the rule down at all.</p>
+    </div>
+  </section>
+
+  <!-- 6 ................................................................. -->
+  <section class="slide" data-title="6. Where Your Database Lives">
+    <div class="eyebrow">PART II • STEP 3</div>
+    <h2>Store It Somewhere Cowork Can Find It</h2>
+    <p class="lede">Storing your database in a consistent, predictable location is what unlocks the automation later. Get this wrong and every prompt starts with a search.</p>
+    <div class="grid g3">
+      <div class="card">
+        <h3>One home, always</h3>
+        <p>Keep it in your OneDrive in the same folder every time. If Cowork has to hunt for the file, a scheduled run has nothing reliable to open.</p>
+      </div>
+      <div class="card">
+        <h3>Name it and reuse the name</h3>
+        <p>Refer to it by exactly the same name in every prompt. &ldquo;Gong Call Log&rdquo; every time &mdash; not &ldquo;my call log&rdquo; one week and &ldquo;the call tracker&rdquo; the next.</p>
+      </div>
+      <div class="card">
+        <h3>One file, many questions</h3>
+        <p>Resist making a new sheet per question. One well-structured table answers churn, upsell and QBR prep &mdash; three tables drift apart within a month.</p>
+      </div>
+    </div>
+    <div class="warn">
+      <p><b>The test:</b> if you can tell a colleague where the file is and what it's called in one sentence, Cowork can find it too.</p>
+    </div>
+  </section>
+
+  <!-- 7 ................................................................. -->
+  <section class="slide" data-title="7. Turn It Into a Skill">
+    <div class="eyebrow">PART II • THE PAYOFF</div>
+    <h2>Now Turn It Into a Skill</h2>
+    <p class="lede">Do this last &mdash; only once your database returns what you actually want. A Skill locks in a working process, so saving a half-right one early just means getting it half-right forever.</p>
+    <div class="seq">
+      <p class="intro">Run this in the same chat where you refined your table, so Cowork can see what worked and what you corrected along the way.</p>
+
+      <p class="steplabel">SAVE THE PROCESS</p>
+      <p class="stepnote">Replace the bracketed parts with whichever database you built.</p>
+      <div class="promptbox">
+        <button class="copybtn">Copy Prompt</button>
+        <pre>Create a skill called <span class="ph">[your-skill-name]</span> from what we just built in this chat.
+
+It should capture:
+- Where my data comes from: <span class="ph">[your sources]</span>
+- The database it maintains: <span class="ph">[file name and location]</span>
+- The columns it fills in and how it decides each one
+- How often it should refresh: <span class="ph">[your cadence]</span>
+- What counts as churn risk: <span class="ph">[your rule]</span>
+- What counts as an upsell opportunity: <span class="ph">[your rule]</span>
+- The corrections I made during this chat, so it doesn't repeat those mistakes
+
+Write it so that next time I only have to say "<span class="ph">[the short phrase you'd naturally type]</span>" and it runs the whole process.</pre>
+      </div>
+
+      <p class="steplabel">THEN TEST IT IN A NEW CHAT</p>
+      <p class="stepnote">A fresh chat is the only real test &mdash; that's the entire point of a Skill.</p>
+      <div class="promptbox">
+        <button class="copybtn">Copy Prompt</button>
+        <pre>Using my <span class="ph">[your-skill-name]</span> skill, refresh my database and show me what changed since the last run.</pre>
+      </div>
+    </div>
+    <div class="callout">
+      <p><b>Why this order matters:</b> a Skill is a recipe. Write the recipe once the dish tastes right &mdash; not while you're still adjusting the seasoning.</p>
+    </div>
+  </section>
+
+  <!-- 8 ................................................................. -->
+  <section class="slide" data-title="8. Recap &amp; Handover to Part 3">
+    <div class="eyebrow">PART II • RECAP</div>
+    <h2>What to Take Away</h2>
+    <p class="lede">Four things worth remembering when you try this on your own accounts.</p>
+    <div class="grid g4">
+      <div class="card topline">
+        <h3>Design, then prompt</h3>
+        <p>The four questions do the hard work. A prompt written after answering them is short; one written before them is a guess.</p>
+      </div>
+      <div class="card topline">
+        <h3>Refining is the work</h3>
+        <p>The first output is a draft. The value comes from the corrections you make next &mdash; and those corrections become the Skill.</p>
+      </div>
+      <div class="card topline">
+        <h3>Write the rule down</h3>
+        <p>If you can't state what churn risk looks like in your data, Cowork can't either. Gut feel doesn't survive a scheduled run.</p>
+      </div>
+      <div class="card topline">
+        <h3>Automate last</h3>
+        <p>Build, refine, Skill it, then schedule it. Automating something you haven't validated just makes it wrong every week.</p>
+      </div>
+    </div>
+
+    <div class="sectionhead">WHAT PART 3 DOES WITH THIS</div>
+    <div class="seq">
+      <p class="intro">Once your database is right and saved as a Skill, this is the wording that becomes a scheduled task &mdash; so it runs without you. Fill in the brackets for whichever build you did.</p>
+      <div class="promptbox">
+        <button class="copybtn">Copy Prompt</button>
+        <pre>Every <span class="ph">[day and time]</span>, check for new <span class="ph">[your source]</span> since the last run and add them to <span class="ph">[your database]</span> as new rows.
+
+Never add the same record twice — check <span class="ph">[the field that identifies a duplicate]</span> before adding.
+
+Then tell me how many rows were added, and flag anything that now meets my churn risk or upsell rules.</pre>
+      </div>
+    </div>
+
+    <div class="sectionhead">TRY THIS WEEK</div>
+    <ul class="plain">
+      <li>Pick one repetitive job and write it as a single sentence, like the quote in Step 1.</li>
+      <li>Answer the four design questions on paper &mdash; it takes about ten minutes.</li>
+      <li>Build one table and spend your time refining it. Don't rush to automate.</li>
+      <li>Save it as a Skill once you've used it for a week and know what to fix.</li>
+    </ul>
+  </section>
+
+</div>
+
+<div class="nav">
+  <div class="navinner">
+    <button class="navbtn" id="prev">&#9664;&nbsp; Previous</button>
+    <select id="jump" aria-label="Jump to section"></select>
+    <button class="navbtn" id="next">Next &nbsp;&#9654;</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total  = slides.length;
+  var idx    = 0;
+  var jump   = document.getElementById('jump');
+  var prev   = document.getElementById('prev');
+  var next   = document.getElementById('next');
+  var counter= document.getElementById('counter');
+
+  slides.forEach(function(s,i){
+    var o = document.createElement('option');
+    o.value = i;
+    o.textContent = s.getAttribute('data-title');
+    jump.appendChild(o);
+  });
+
+  function show(n, push){
+    idx = Math.max(0, Math.min(total-1, n));
+    slides.forEach(function(s,i){ s.classList.toggle('on', i===idx); });
+    jump.value = idx;
+    counter.textContent = 'Slide ' + (idx+1) + ' of ' + total;
+    prev.disabled = (idx===0);
+    next.disabled = (idx===total-1);
+    if(push !== false){
+      try{ history.replaceState(null,'','#s'+(idx+1)); }catch(e){}
+    }
+    window.scrollTo(0,0);
+  }
+
+  prev.addEventListener('click', function(){ show(idx-1); });
+  next.addEventListener('click', function(){ show(idx+1); });
+  jump.addEventListener('change', function(){ show(parseInt(jump.value,10)); });
+
+  document.addEventListener('keydown', function(e){
+    if(e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+    if(e.key === 'ArrowRight') show(idx+1);
+    if(e.key === 'ArrowLeft')  show(idx-1);
+  });
+
+  document.querySelectorAll('.copybtn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pre = btn.parentNode.querySelector('pre');
+      var txt = pre.innerText;
+      var done = function(){
+        var old = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.classList.add('done');
+        setTimeout(function(){ btn.textContent = old; btn.classList.remove('done'); }, 1800);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(txt).then(done, function(){ fallback(txt, done); });
+      } else {
+        fallback(txt, done);
+      }
+    });
+  });
+
+  function fallback(txt, done){
+    var ta = document.createElement('textarea');
+    ta.value = txt;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); done(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+
+  var m = /^#s(\d+)$/.exec(window.location.hash || '');
+  show(m ? parseInt(m[1],10)-1 : 0, false);
+})();
+</script>
+</body>
+</html>
